@@ -6,3 +6,46 @@
   padding: 0;
   box-sizing: border-box;
 }
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgb(229 231 235 / 50);
+}
+.todo-container div {
+  display: flex;
+  align-items: center;
+}
+.todo-container div label {
+  margin-left: 16px;
+}
+.todo-checkbox, .done-checkbox {
+  appearance: none;
+  border-radius: 50%;
+  border: 1px solid rgb(229 231 235 / 50);
+  position: relative;
+  padding: 12px;
+}
+.todo-checkbox:checked, .done-checkbox:checked {
+  background: linear-gradient(
+    to right bottom,
+    hsl(192, 100%, 67%),
+    hsl(280, 87%, 65%)
+  );
+}
+.todo-checkbox:checked +label{
+  text-decoration: line-through;
+  color: black;
+  opacity: 50%;
+}
+.todo-checkbox:checked::after, .done-checkbox:checked::after {
+  content: url("images/icon-check.svg");
+  width: 11px;
+  height: 9px;
+  position: absolute;
+  top: -1px;
+  right: 6px;
+}
+.selection:checked + label {
+  color: hsl(220, 98%, 61%);
+}

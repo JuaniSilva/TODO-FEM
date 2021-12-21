@@ -75,98 +75,35 @@
         <img src="images/icon-moon.svg" alt="" class="opacity-0" />
       </div>
     </header>
-    <div class="bg-white py-[14px] px-5 rounded flex items-center">
-      <input
-        type="checkbox"
-        name=""
-        id=""
-        class="
-          appearance-none
-          rounded-[50%]
-          border
-          p-3
-          relative
-          checked:bg-gradient-to-br
-          from-fromBg
-          to-toBg
-          checked:after:content-[url('images/icon-check.svg')]
-          checked:after:w-[11px]
-          checked:after:h-[9px]
-          checked:after:absolute
-          checked:after:top-[-1px]
-          checked:after:right-[6px]
-        "
-      />
+    <form
+      class="bg-white py-[14px] px-5 rounded flex items-center"
+      id="todoForm"
+    >
+      <input type="checkbox" name="" id="newTodoCheck" class="done-checkbox" />
       <input
         type="text"
         placeholder="Create a new todo..."
         class="ml-4 text-[12px] w-full outline-none"
+        id="newTodoInput"
+        autocomplete="off"
       />
-    </div>
-    <section id="todoList" class="bg-white flex flex-col my-4 rounded">
-      <!-- test task for styling -->
-      <div class="flex justify-between px-5 py-4 border-b">
-        <div class="flex items-center">
-          <input
-            type="checkbox"
-            name=""
-            id=""
-            class="
-              appearance-none
-              rounded-[50%]
-              border
-              p-3
-              relative
-              checked:bg-gradient-to-br
-              from-fromBg
-              to-toBg
-              checked:after:content-[url('images/icon-check.svg')]
-              checked:after:w-[11px]
-              checked:after:h-[9px]
-              checked:after:absolute
-              checked:after:top-[-1px]
-              checked:after:right-[6px]
-            "
-          />
-          <p class="ml-4">test task for styling</p>
-        </div>
-        <button>
-          <img src="images/icon-cross.svg" alt="" />
-        </button>
-      </div>
+    </form>
+    <section  id="todoListSection" class="bg-white flex flex-col my-4 rounded">
+      <div id="todoList" class="flex flex-col">
+        <!-- test task for styling -->
+        <!-- <div class="todo-container">
+          <div class="flex items-center">
+            <input type="checkbox" name="" id="" class="todo-checkbox" />
+            <label class="ml-4">test task for styling</label>
+          </div>
+          <button>
+            <img src="images/icon-cross.svg" alt="" />
+          </button>
+        </div> -->
 
-      <div class="flex justify-between px-5 py-4 border-b">
-        <div class="flex items-center">
-          <input
-            type="checkbox"
-            name=""
-            id=""
-            class="
-              appearance-none
-              rounded-[50%]
-              border
-              p-3
-              relative
-              checked:bg-gradient-to-br
-              from-fromBg
-              to-toBg
-              checked:after:content-[url('images/icon-check.svg')]
-              checked:after:w-[11px]
-              checked:after:h-[9px]
-              checked:after:absolute
-              checked:after:top-[-1px]
-              checked:after:right-[6px]
-            "
-          />
-          <p class="ml-4">test task for styling</p>
-        </div>
-        <button>
-          <img src="images/icon-cross.svg" alt="" />
-        </button>
       </div>
-
       <div class="text-[12px] text-black/50 px-5 py-4 flex justify-between">
-        <p>n items left</p>
+        <p><span id="itemsLeft">0</span> items left</p>
         <button id="clearCompleted">Clear Comleted</button>
       </div>
     </section>
@@ -184,39 +121,45 @@
       "
     >
       <div>
+        <input
+        type="radio"
+        name="selection"
+        id="all"
+        class="check-with-label hidden selection"
+        value="all"
+        checked
+        />
         <label
           for="all"
           class="select-none cursor-pointer checked:text-brightBlue"
           >All</label
         >
-        <input
-          type="checkbox"
-          name="all"
-          id="all"
-          class="check-with-label hidden"
-        />
       </div>
       <div class="ml-5">
+        <input
+        type="radio"
+        name="selection"
+        id="active"
+        class="hidden check-with-label selection"
+        value="false"
+        />
         <label for="active" class="cursor-pointer">Active</label>
-        <input
-          type="checkbox"
-          name="active"
-          id="active"
-          class="hidden check-with-label"
-        />
       </div>
       <div class="ml-5">
-        <label for="completed" class="cursor-pointer">Complted</label>
         <input
-          type="checkbox"
-          name="completed"
-          id="completed"
-          class="hidden check-with-label"
+        type="radio"
+        name="selection"
+        id="completed"
+        class="hidden check-with-label selection"
+        value="true"
         />
+        <label for="completed" class="cursor-pointer">Completed</label>
       </div>
     </div>
 
-    <p class="text-black/50 flex justify-center mt-11">Drag and drop to reorder list</p>
+    <p class="text-black/50 flex justify-center mt-11">
+      Drag and drop to reorder list
+    </p>
 
     <div class="attribution">
       Challenge by
@@ -224,5 +167,6 @@
         >Frontend Mentor</a
       >. Coded by <a href="https://github.com/JuaniSilva">Juani Silva</a>.
     </div>
+    <script src="script.js"></script>
   </body>
 </html>
