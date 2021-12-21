@@ -9,7 +9,7 @@ const radioButtons = document.querySelectorAll(".selection");
 const todoListSection = document.getElementById("todoListSection")
 // console.log(todosList[0][2])
 // localStorage.setItem("todosList", JSON.stringify([]))
-
+console.log('working')
 function saveNewTodo(e) {
   e.preventDefault();
   let checkValue = newTodoCheck.checked;
