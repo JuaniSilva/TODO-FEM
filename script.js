@@ -4,13 +4,14 @@ const todoForm = document.getElementById("todoForm");
 const todoList = document.getElementById("todoList");
 const itemsLeft = document.getElementById("itemsLeft");
 const clearCompleted = document.getElementById("clearCompleted");
-let todosList = []
-todosList = JSON.parse(localStorage.getItem("todosList"));
 const radioButtons = document.querySelectorAll(".selection");
 const todoListSection = document.getElementById("todoListSection");
 const themeButton = document.getElementById("themeButton");
-// console.log(todosList[0][2])
-// localStorage.setItem("todosList", JSON.stringify([]))
+let todosList = []
+
+if(JSON.parse(localStorage.getItem("todosList"))){
+  todosList = JSON.parse(localStorage.getItem("todosList"))
+}
 
 function saveNewTodo(e) {
   e.preventDefault();
@@ -33,7 +34,9 @@ function loadTodos() {
     addTodo(todo);
   }
 }
-loadTodos();
+if(todosList){
+  loadTodos();
+}
 
 function addTodo(todo) {
   const todoContainer = document.createElement("div");
