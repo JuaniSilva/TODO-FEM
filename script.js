@@ -4,12 +4,14 @@ const todoForm = document.getElementById("todoForm");
 const todoList = document.getElementById("todoList");
 const itemsLeft = document.getElementById("itemsLeft");
 const clearCompleted = document.getElementById("clearCompleted");
-let todosList = JSON.parse(localStorage.getItem("todosList"));
+let todosList = []
+todosList = JSON.parse(localStorage.getItem("todosList"));
 const radioButtons = document.querySelectorAll(".selection");
 const todoListSection = document.getElementById("todoListSection");
 const themeButton = document.getElementById("themeButton");
 // console.log(todosList[0][2])
 // localStorage.setItem("todosList", JSON.stringify([]))
+
 function saveNewTodo(e) {
   e.preventDefault();
   let checkValue = newTodoCheck.checked;
@@ -71,9 +73,6 @@ function updateItemsLeft() {
   itemsLeft.innerText = todosList.length;
 }
 
-function checkTodo(e) {
-  console.log(e.target);
-}
 //Save change of state of todo :D
 function changeStateOfTodo(e) {
   for (let todo of todosList) {
@@ -82,12 +81,6 @@ function changeStateOfTodo(e) {
     }
   }
   saveTodos();
-}
-
-let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
-
-for (let checkbox of todoCheckboxes) {
-  checkbox.addEventListener("change", changeStateOfTodo);
 }
 
 todoForm.addEventListener("submit", saveNewTodo);
@@ -132,10 +125,6 @@ function filterTodos(e) {
     } else {
       itemsLeft.innerText = 0;
     }
-  }
-  todoCheckboxes = document.querySelectorAll(".todo-checkbox");
-  for (let checkbox of todoCheckboxes) {
-    checkbox.addEventListener("change", changeStateOfTodo);
   }
 }
 
