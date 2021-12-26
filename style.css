@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   padding: 12px 16px;
-  border-bottom: 1px solid rgb(229 231 235 / 50);
+  border-bottom: 1px solid rgba(229 231 235 / .3);
 }
 .todo-container div {
   display: flex;
@@ -18,13 +18,15 @@
 }
 .todo-container div label {
   margin-left: 16px;
+  cursor: pointer;
 }
 .todo-checkbox, .done-checkbox {
   appearance: none;
   border-radius: 50%;
-  border: 1px solid rgb(229 231 235 / 50);
+  border: 1px solid rgba(229 231 235 / .2);
   position: relative;
   padding: 12px;
+  cursor: pointer;
 }
 .todo-checkbox:checked, .done-checkbox:checked {
   background: linear-gradient(
@@ -33,9 +35,16 @@
     hsl(280, 87%, 65%)
   );
 }
+.todo-checkbox:hover, .done-checkbox:hover {
+  border-color: linear-gradient(
+    to right bottom,
+    hsl(192, 100%, 67%),
+    hsl(280, 87%, 65%)
+  );
+}
 .todo-checkbox:checked +label{
   text-decoration: line-through;
-  color: black;
+  color: hsl(0, 0%, 98%);
   opacity: 50%;
 }
 .todo-checkbox:checked::after, .done-checkbox:checked::after {

@@ -6,10 +6,10 @@ const itemsLeft = document.getElementById("itemsLeft");
 const clearCompleted = document.getElementById("clearCompleted");
 let todosList = JSON.parse(localStorage.getItem("todosList"));
 const radioButtons = document.querySelectorAll(".selection");
-const todoListSection = document.getElementById("todoListSection")
+const todoListSection = document.getElementById("todoListSection");
+const themeButton = document.getElementById("themeButton");
 // console.log(todosList[0][2])
 // localStorage.setItem("todosList", JSON.stringify([]))
-console.log('working')
 function saveNewTodo(e) {
   e.preventDefault();
   let checkValue = newTodoCheck.checked;
@@ -50,6 +50,8 @@ function addTodo(todo) {
   todoLabel.innerText = todo[1];
 
   const clearTodo = document.createElement("button");
+  clearTodo.classList.add("clear-button");
+  clearTodo.dataset.todoId = todo[2];
 
   const cross = document.createElement("img");
   cross.src = "images/icon-cross.svg";
@@ -61,7 +63,8 @@ function addTodo(todo) {
   todoContainer.appendChild(clearTodo);
   todoList.appendChild(todoContainer);
   updateItemsLeft();
-  
+  todoCheckbox.addEventListener("change", changeStateOfTodo);
+  clearTodo.addEventListener("click", deleteTodo);
 }
 //update items left
 function updateItemsLeft() {
@@ -71,10 +74,23 @@ function updateItemsLeft() {
 function checkTodo(e) {
   console.log(e.target);
 }
+//Save change of state of todo :D
+function changeStateOfTodo(e) {
+  for (let todo of todosList) {
+    if (todo[2] == e.target.id) {
+      todo[0] = e.target.checked;
+    }
+  }
+  saveTodos();
+}
+
+let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
+
+for (let checkbox of todoCheckboxes) {
+  checkbox.addEventListener("change", changeStateOfTodo);
+}
 
 todoForm.addEventListener("submit", saveNewTodo);
-
-
 
 //Clear completed Todos
 function clearCompletedTodos() {
@@ -97,23 +113,23 @@ clearCompleted.addEventListener("click", clearCompletedTodos);
 function filterTodos(e) {
   let isTrue = e.target.value === "true";
   if (e.target.value == "all") {
-    while(todoList.firstChild){
-      todoList.firstChild.remove()
+    while (todoList.firstChild) {
+      todoList.firstChild.remove();
     }
-    for(let todo of todosList){
-      addTodo(todo)
+    for (let todo of todosList) {
+      addTodo(todo);
     }
   } else {
     let filteredList = todosList.filter((todo) => todo[0] == isTrue);
-    while(todoList.firstChild){
-      todoList.firstChild.remove()
+    while (todoList.firstChild) {
+      todoList.firstChild.remove();
     }
-    if(filteredList[0]){
-      for(let todo of filteredList){
-        addTodo(todo)
-        itemsLeft.innerText = filteredList.length
+    if (filteredList[0]) {
+      for (let todo of filteredList) {
+        addTodo(todo);
+        itemsLeft.innerText = filteredList.length;
       }
-    }else{
+    } else {
       itemsLeft.innerText = 0;
     }
   }
@@ -126,19 +142,35 @@ function filterTodos(e) {
 for (let radioButton of radioButtons) {
   radioButton.addEventListener("change", filterTodos);
 }
-//Save change of state of todo :D
-function changeStateOfTodo(e) {
-  for (let todo of todosList) {
-    if (todo[2] == e.target.id) {
-      todo[0] = e.target.checked;
-    }
-  }
-  console.log("working")
+
+//delete todo
+
+const deleteTodoButtons = document.querySelectorAll(".clear-button");
+
+function deleteTodo(e) {
+  console.log(e.target.parentNode.dataset.todoId);
+  todosList = todosList.filter(
+    (todo) => todo[2] != e.target.parentNode.dataset.todoId
+  );
+
+  e.target.parentNode.parentNode.remove();
   saveTodos();
+  itemsLeft.innerText -= 1;
 }
 
-let todoCheckboxes = document.querySelectorAll(".todo-checkbox");
-
-for (let checkbox of todoCheckboxes) {
-  checkbox.addEventListener("change", changeStateOfTodo);
+for (let deleteButton of deleteTodoButtons) {
+  deleteButton.addEventListener("click", deleteTodo);
 }
+
+function changeTheme() {
+  console.log('nashe')
+  if (localStorage.theme == "light") {
+    localStorage.theme = "dark";
+    document.documentElement.classList.add("dark");
+  } else {
+    localStorage.theme = "light";
+    document.documentElement.classList.remove("dark");
+  }
+}
+
+themeButton.addEventListener("click", changeTheme);

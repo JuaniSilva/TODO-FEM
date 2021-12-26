@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- displays site properly based on user's device -->
-    <link rel="stylesheet" href="style.css" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
       href="./images/favicon-32x32.png"
     />
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Frontend Mentor | Todo app</title>
     <script>
@@ -39,8 +39,9 @@
           },
           fontSize: {
             base: "18px",
-          },
+          },    
         },
+        darkMode: "class"
       };
     </script>
     <style>
@@ -52,9 +53,22 @@
         color: hsl(228, 45%, 44%);
       }
     </style>
+    <script>
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
   </head>
   <body
     class="
+      flex flex-col
+      justify-center
       font-body
       text-base
       bg-[url('images/bg-mobile-light.jpg')] bg-no-repeat bg-cover
@@ -64,32 +78,69 @@
       py-12
       relative
       z-10
+      dark:bg-[url('images/bg-mobile-dark.jpg')]
+      dark:bg-darkBlue
+      dark:text-lightGray/80
+      transition
+      duration-500
     "
   >
-    <header class="flex justify-between">
+    <header
+      class="flex justify-between relative mb-10 max-w-[540px] w-full mx-auto"
+    >
       <h1 class="font-[700] uppercase text-white tracking-[.5rem] text-[20px]">
         Todo
       </h1>
-      <div>
-        <img src="images/icon-sun.svg" alt="" />
-        <img src="images/icon-moon.svg" alt="" class="opacity-0" />
-      </div>
+      <button id="themeButton" class="">
+        <img src="images/icon-sun.svg" alt="" class="hidden dark:flex " />
+        <img src="images/icon-moon.svg" alt="" class="dark:hidden " />
+      </button>
     </header>
     <form
-      class="bg-white py-[14px] px-5 rounded flex items-center"
+      class="
+        bg-white
+        py-[14px]
+        px-5
+        rounded
+        flex
+        items-center
+        dark:bg-darkDesaturatedBlue
+        max-w-[540px]
+        mx-auto
+        w-full
+      "
       id="todoForm"
     >
       <input type="checkbox" name="" id="newTodoCheck" class="done-checkbox" />
       <input
         type="text"
         placeholder="Create a new todo..."
-        class="ml-4 text-[12px] w-full outline-none"
+        class="
+          ml-4
+          text-[12px]
+          w-full
+          outline-none
+          caret-brightBlue
+          dark:bg-darkDesaturatedBlue dark:text-
+        "
         id="newTodoInput"
         autocomplete="off"
       />
     </form>
-    <section  id="todoListSection" class="bg-white flex flex-col my-4 rounded">
-      <div id="todoList" class="flex flex-col">
+    <section
+      id="todoListSection"
+      class="
+        bg-white
+        flex flex-col
+        my-4
+        rounded
+        dark:bg-darkDesaturatedBlue dark:text-lightGray
+        max-w-[540px]
+        mx-auto
+        w-full
+      "
+    >
+      <div id="todoList" class="flex flex-col dark:text-lightGray">
         <!-- test task for styling -->
         <!-- <div class="todo-container">
           <div class="flex items-center">
@@ -100,9 +151,17 @@
             <img src="images/icon-cross.svg" alt="" />
           </button>
         </div> -->
-
       </div>
-      <div class="text-[12px] text-black/50 px-5 py-4 flex justify-between">
+      <div
+        class="
+          text-[12px] text-black/50
+          px-5
+          py-4
+          flex
+          justify-between
+          dark:text-lightGray/50
+        "
+      >
         <p><span id="itemsLeft">0</span> items left</p>
         <button id="clearCompleted">Clear Comleted</button>
       </div>
@@ -118,16 +177,19 @@
         py-[14px]
         justify-center
         text-black/50
+        dark:bg-darkDesaturatedBlue dark:text-lightGray/50
+        max-w-[540px]
+        mx-auto
       "
     >
       <div>
         <input
-        type="radio"
-        name="selection"
-        id="all"
-        class="check-with-label hidden selection"
-        value="all"
-        checked
+          type="radio"
+          name="selection"
+          id="all"
+          class="check-with-label hidden selection"
+          value="all"
+          checked
         />
         <label
           for="all"
@@ -137,27 +199,35 @@
       </div>
       <div class="ml-5">
         <input
-        type="radio"
-        name="selection"
-        id="active"
-        class="hidden check-with-label selection"
-        value="false"
+          type="radio"
+          name="selection"
+          id="active"
+          class="hidden check-with-label selection"
+          value="false"
         />
         <label for="active" class="cursor-pointer">Active</label>
       </div>
       <div class="ml-5">
         <input
-        type="radio"
-        name="selection"
-        id="completed"
-        class="hidden check-with-label selection"
-        value="true"
+          type="radio"
+          name="selection"
+          id="completed"
+          class="hidden check-with-label selection"
+          value="true"
         />
         <label for="completed" class="cursor-pointer">Completed</label>
       </div>
     </div>
 
-    <p class="text-black/50 flex justify-center mt-11">
+    <p
+      class="
+        text-black/50
+        flex
+        justify-center
+        mt-11
+        dark:text-lightGray/50 text-[14px]
+      "
+    >
       Drag and drop to reorder list
     </p>
 
