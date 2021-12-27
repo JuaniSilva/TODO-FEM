@@ -7,10 +7,10 @@ const clearCompleted = document.getElementById("clearCompleted");
 const radioButtons = document.querySelectorAll(".selection");
 const todoListSection = document.getElementById("todoListSection");
 const themeButton = document.getElementById("themeButton");
-let todosList = []
+let todosList = [];
 
-if(JSON.parse(localStorage.getItem("todosList"))){
-  todosList = JSON.parse(localStorage.getItem("todosList"))
+if (JSON.parse(localStorage.getItem("todosList"))) {
+  todosList = JSON.parse(localStorage.getItem("todosList"));
 }
 
 function saveNewTodo(e) {
@@ -34,7 +34,7 @@ function loadTodos() {
     addTodo(todo);
   }
 }
-if(todosList){
+if (todosList) {
   loadTodos();
 }
 
@@ -42,9 +42,17 @@ function addTodo(todo) {
   const todoContainer = document.createElement("div");
   todoContainer.classList.add("todo-container");
   todoContainer.setAttribute("draggable", true);
-  todoContainer.addEventListener('dragstart', draggStart)
-  todoContainer.addEventListener('dragend', draggEnd)
-  todoContainer.addEventListener('dragover', draggOver)
+  todoContainer.addEventListener("dragstart", draggStart);
+  todoContainer.addEventListener("dragend", draggEnd);
+  todoContainer.addEventListener("dragover", draggOver);
+
+  todoContainer.addEventListener("touchmove", (e) => {
+    draggStart(todoContainer);
+    draggOver(e);
+  });
+  todoContainer.addEventListener("touchend", () => {
+    draggEnd(todoContainer);
+  });
 
   const todoMiniContainer = document.createElement("div");
 
@@ -56,8 +64,8 @@ function addTodo(todo) {
   todoCheckbox.classList.add("peer");
 
   const todoLabel = document.createElement("label");
-  todoLabel.classList.add("dark:text-darkGrayishBlue")
-  todoLabel.classList.add("dark:peer-checked:text-darkDarkGrayishBlue")
+  todoLabel.classList.add("dark:text-darkGrayishBlue");
+  todoLabel.classList.add("dark:peer-checked:text-darkDarkGrayishBlue");
   todoLabel.htmlFor = todo[2];
   todoLabel.innerText = todo[1];
 
@@ -82,38 +90,51 @@ function addTodo(todo) {
 function updateItemsLeft() {
   itemsLeft.innerText = todosList.length;
 }
-//Start of dragging 
-function draggStart(e){
-  e.target.classList.add("dragging")
+//Start of dragging
+function draggStart(todoContainer) {
+  todoContainer.classList.add("dragging");
 }
 //End of dragging
-function draggEnd(e){
-  e.target.classList.remove("dragging")
+function draggEnd(todoContainer) {
+  todoContainer.classList.remove("dragging");
 }
 //Dragging over
 function draggOver(e) {
-  e.preventDefault()
-  const afterElement = getDragAfterElement(e.clientY)
-  const draggable = document.querySelector(".dragging")
-  if(afterElement == null){
-    todoList.appendChild(draggable)
+  e.preventDefault();
+  let afterElement = 0
+  if(e.type == 'touchmove'){
+    let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
+    let touch = evt.touches[0] || evt.changedTouches[0];
+    afterElement = getDragAfterElement(touch.pageY);
+    console.log(touch.pageY)
+  }else {
+    afterElement = getDragAfterElement(e.clientY);
+    console.log('test')
+  }
+  const draggable = document.querySelector(".dragging");
+  if (afterElement == null) {
+    todoList.appendChild(draggable);
   } else {
-    todoList.insertBefore(draggable, afterElement)
+    todoList.insertBefore(draggable, afterElement);
   }
 }
-function getDragAfterElement(y){
-  const draggableElements = [...todoList.querySelectorAll(".todo-container:not(.dragging)")]
-  
-  return draggableElements.reduce((closest, child)=> {
-    const box = child.getBoundingClientRect()
-    const offset = y - box.top - box.height / 2
-    if(offset < 0 && offset > closest.offset) {
-      return {offset: offset, element: child}
-    } else {
-      return closest
-    }
-  }, {offset: Number.NEGATIVE_INFINITY}).element
+function getDragAfterElement(y) {
+  const draggableElements = [
+    ...todoList.querySelectorAll(".todo-container:not(.dragging)"),
+  ];
 
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
 }
 
 //Save change of state of todo :D
