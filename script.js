@@ -42,8 +42,12 @@ function addTodo(todo) {
   const todoContainer = document.createElement("div");
   todoContainer.classList.add("todo-container");
   todoContainer.setAttribute("draggable", true);
-  todoContainer.addEventListener("dragstart", draggStart);
-  todoContainer.addEventListener("dragend", draggEnd);
+  todoContainer.addEventListener("dragstart", () => {
+    draggStart(todoContainer);
+  });
+  todoContainer.addEventListener("dragend", () => {
+    draggEnd(todoContainer)
+  });
   todoContainer.addEventListener("dragover", draggOver);
 
   todoContainer.addEventListener("touchmove", (e) => {
@@ -101,15 +105,14 @@ function draggEnd(todoContainer) {
 //Dragging over
 function draggOver(e) {
   e.preventDefault();
-  let afterElement = 0
-  if(e.type == 'touchmove'){
-    let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
+  let afterElement;
+  if (e.type == "touchmove") {
+    let evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
     let touch = evt.touches[0] || evt.changedTouches[0];
     afterElement = getDragAfterElement(touch.pageY);
-    console.log(touch.pageY)
-  }else {
+  } else {
     afterElement = getDragAfterElement(e.clientY);
-    console.log('test')
+    console.log("test");
   }
   const draggable = document.querySelector(".dragging");
   if (afterElement == null) {
