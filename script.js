@@ -112,7 +112,6 @@ function draggOver(e) {
     afterElement = getDragAfterElement(touch.pageY);
   } else {
     afterElement = getDragAfterElement(e.clientY);
-    console.log("test");
   }
   const draggable = document.querySelector(".dragging");
   if (afterElement == null) {
@@ -154,6 +153,7 @@ todoForm.addEventListener("submit", saveNewTodo);
 
 //Clear completed Todos
 function clearCompletedTodos() {
+  let todoCheckboxes = document.querySelectorAll(".todo-checkbox")
   for (let todo of todosList) {
     if (todo[0] == true) {
       for (let checkbox of todoCheckboxes) {
