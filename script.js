@@ -41,6 +41,10 @@ if(todosList){
 function addTodo(todo) {
   const todoContainer = document.createElement("div");
   todoContainer.classList.add("todo-container");
+  todoContainer.setAttribute("draggable", true);
+  todoContainer.addEventListener('dragstart', draggStart)
+  todoContainer.addEventListener('dragend', draggEnd)
+  todoContainer.addEventListener('dragover', draggOver)
 
   const todoMiniContainer = document.createElement("div");
 
@@ -49,8 +53,11 @@ function addTodo(todo) {
   todoCheckbox.setAttribute("id", todo[2]);
   todoCheckbox.checked = todo[0];
   todoCheckbox.classList.add("todo-checkbox");
+  todoCheckbox.classList.add("peer");
 
   const todoLabel = document.createElement("label");
+  todoLabel.classList.add("dark:text-darkGrayishBlue")
+  todoLabel.classList.add("dark:peer-checked:text-darkDarkGrayishBlue")
   todoLabel.htmlFor = todo[2];
   todoLabel.innerText = todo[1];
 
@@ -74,6 +81,39 @@ function addTodo(todo) {
 //update items left
 function updateItemsLeft() {
   itemsLeft.innerText = todosList.length;
+}
+//Start of dragging 
+function draggStart(e){
+  e.target.classList.add("dragging")
+}
+//End of dragging
+function draggEnd(e){
+  e.target.classList.remove("dragging")
+}
+//Dragging over
+function draggOver(e) {
+  e.preventDefault()
+  const afterElement = getDragAfterElement(e.clientY)
+  const draggable = document.querySelector(".dragging")
+  if(afterElement == null){
+    todoList.appendChild(draggable)
+  } else {
+    todoList.insertBefore(draggable, afterElement)
+  }
+}
+function getDragAfterElement(y){
+  const draggableElements = [...todoList.querySelectorAll(".todo-container:not(.dragging)")]
+  
+  return draggableElements.reduce((closest, child)=> {
+    const box = child.getBoundingClientRect()
+    const offset = y - box.top - box.height / 2
+    if(offset < 0 && offset > closest.offset) {
+      return {offset: offset, element: child}
+    } else {
+      return closest
+    }
+  }, {offset: Number.NEGATIVE_INFINITY}).element
+
 }
 
 //Save change of state of todo :D
@@ -155,7 +195,6 @@ for (let deleteButton of deleteTodoButtons) {
 }
 
 function changeTheme() {
-  console.log('nashe')
   if (localStorage.theme == "light") {
     localStorage.theme = "dark";
     document.documentElement.classList.add("dark");

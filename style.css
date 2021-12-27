@@ -19,11 +19,12 @@
 .todo-container div label {
   margin-left: 16px;
   cursor: pointer;
+  color: hsl(235, 19%, 35%)
 }
 .todo-checkbox, .done-checkbox {
   appearance: none;
   border-radius: 50%;
-  border: 1px solid rgba(229 231 235 / .2);
+  border: 1px solid rgba(229 231 235 / .5);
   position: relative;
   padding: 12px;
   cursor: pointer;
@@ -44,8 +45,7 @@
 }
 .todo-checkbox:checked +label{
   text-decoration: line-through;
-  color: hsl(0, 0%, 98%);
-  opacity: 50%;
+  color: rgba(0 0 0 / .5);
 }
 .todo-checkbox:checked::after, .done-checkbox:checked::after {
   content: url("images/icon-check.svg");
@@ -57,4 +57,7 @@
 }
 .selection:checked + label {
   color: hsl(220, 98%, 61%);
+}
+.dragging{
+  opacity: .5;
 }
